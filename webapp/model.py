@@ -8,7 +8,6 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     date_of_birth = db.Column(db.DateTime, nullable=True)
-    tracks = db.relationship('Tracks', backref=db.backref('artists', lazy='dynamic'))
 
 
 def __repr__(self):
