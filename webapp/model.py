@@ -34,7 +34,7 @@ class Line(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=False)
-    bars = db.relationship('Bars', backref=db.backref('bars', lazy='dynamic'))
+    bars = db.relationship('Bar', backref=db.backref('lines', lazy='dynamic'))
 
     sequence = db.Column(db.Integer, nullable=False)
     position_1 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=False)
