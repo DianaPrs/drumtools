@@ -9,8 +9,7 @@ class Artist(db.Model):
     name = db.Column(db.String, unique=True, nullable=False)
     date_of_birth = db.Column(db.DateTime, nullable=True)
 
-
-def __repr__(self):
+    def __repr__(self):
         return f'<Artist: {self.name}, Date of Birth: {self.date_of_birth}>'
 
 
@@ -22,11 +21,11 @@ class Track(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id', ondelete='CASCADE'), index=True, nullable=False)
     artist = db.relationship('Artist', backref=db.backref('tracks', lazy='dynamic'))
 
-    note_duration = db.Column(db.String, nullable=False)
-    speed = db.Column(db.Integer, nullable=False)
+    note_duration = db.Column(db.String, nullable=True)
+    speed = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
-        return f'<Track: {self.name}, duration: {self.note_duration}, speed: {self.speed}>'
+        return f'<Track_id: {self.id},Track: {self.name}, duration: {self.note_duration}, speed: {self.speed}>'
 
 
 class Line(db.Model):
@@ -34,7 +33,6 @@ class Line(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=False)
-    bars = db.relationship('Bar', backref=db.backref('lines', lazy='dynamic'))
 
     sequence = db.Column(db.Integer, nullable=False)
     position_1 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=False)
@@ -45,25 +43,24 @@ class Line(db.Model):
     position_6 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
     position_7 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
     position_8 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    accent_1 = db.Column(db.Boolean, nullable=False)
-    accent_2 = db.Column(db.Boolean, nullable=False)
-    accent_3 = db.Column(db.Boolean, nullable=False)
-    accent_4 = db.Column(db.Boolean, nullable=False)
-    accent_5 = db.Column(db.Boolean, nullable=False)
-    accent_6 = db.Column(db.Boolean, nullable=False)
-    accent_7 = db.Column(db.Boolean, nullable=False)
-    accent_8 = db.Column(db.Boolean, nullable=False)
-    intro = db.Column(db.Boolean, nullable=False)
-    couplet = db.Column(db.Boolean, nullable=False)
-    chorus = db.Column(db.Boolean, nullable=False)
-    pre_chorus = db.Column(db.Boolean, nullable=False)
-    bridge = db.Column(db.Boolean, nullable=False)
-    solo = db.Column(db.Boolean, nullable=False)
-    coda = db.Column(db.Boolean, nullable=False)
+    accent_1 = db.Column(db.Boolean, nullable=True)
+    accent_2 = db.Column(db.Boolean, nullable=True)
+    accent_3 = db.Column(db.Boolean, nullable=True)
+    accent_4 = db.Column(db.Boolean, nullable=True)
+    accent_5 = db.Column(db.Boolean, nullable=True)
+    accent_6 = db.Column(db.Boolean, nullable=True)
+    accent_7 = db.Column(db.Boolean, nullable=True)
+    accent_8 = db.Column(db.Boolean, nullable=True)
+    intro = db.Column(db.Boolean, nullable=True)
+    couplet = db.Column(db.Boolean, nullable=True)
+    chorus = db.Column(db.Boolean, nullable=True)
+    pre_chorus = db.Column(db.Boolean, nullable=True)
+    bridge = db.Column(db.Boolean, nullable=True)
+    solo = db.Column(db.Boolean, nullable=True)
+    coda = db.Column(db.Boolean, nullable=True)
 
     def __repr__(self):
-        return f'Line sequence: {self.sequence}'
-    #  Нужно ли тут перечислять все элементы?
+        return f'Line: {self.id}, sequence: {self.sequence}'
 
 
 class Bar(db.Model):
@@ -71,8 +68,8 @@ class Bar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     notes = db.Column(db.String, nullable=False)
     number = db.Column(db.Integer, nullable=False)
-    empty = db.Column(db.Boolean, nullable=False)
-    half = db.Column(db.Boolean, nullable=False)
+    empty = db.Column(db.Boolean, nullable=True)
+    half = db.Column(db.Boolean, nullable=True)
 
     def __repr__(self):
-        return f'Bar number: {self.number}, empty={self.empty}, half={self.half}, notes: {self.notes}'
+        return f'Bar {self.id}, number: {self.number}, empty={self.empty}, half={self.half}, notes: {self.notes}'
