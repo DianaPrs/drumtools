@@ -12,11 +12,20 @@
   <title>{{ page_title }}</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="/static/css/modern-business.css" rel="stylesheet">
+  <link href="../static/css/modern-business.css" rel="stylesheet">
 
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../static/favicon/site.webmanifest">
+  <link rel="mask-icon" href="../static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="../static/favicon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="../static/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
@@ -246,13 +255,19 @@
       new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
       new VF.StaveNote({ keys: ["c/5"], duration: "4r" })
     ];
+    var notes2 = [
+      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
+      new VF.StaveNote({ keys: ["c/5"], duration: "4r" }),
+      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
+      new VF.StaveNote({ keys: ["c/5"], duration: "4r" })
+    ];
 
     // // Create a voice in 4/4 and add above notes - вывод нот, но не соединенных друг с другом
     // var voice = new VF.Voice({num_beats: 4,  beat_value: 4});
     // voice.addTickables(notes);
 
     // Делаем так, чтобы ноты записывались соединенными.
-    var beams = VF.Beam.generateBeams(notes);
+    var beams = VF.Beam.generateBeams(notes, notes2);
     VF.Formatter.FormatAndDraw(context, stave, notes);
     beams.forEach(function(b) {b.setContext(context).draw()})
 
