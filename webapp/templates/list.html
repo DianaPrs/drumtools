@@ -15,6 +15,9 @@
 
   <!-- Custom styles for this template -->
   <link href="/static/css/modern-business.css" rel="stylesheet">
+  <link href="/static/css/styles.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -30,21 +33,34 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            {% if current_user.is_authenticated %}
+            <a class="nav-link" href="/account">Profile</a>
+            {% else %}
             <a class="nav-link" href="/about">About</a>
+            {% endif %}
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/create">Create</a>
           </li>
           <li class="nav-item">
+            {% if current_user.is_authenticated %}
+            <a class="nav-link" href="/feedback">Feedback</a>
+            {% else %}
             <a class="nav-link" href="/signup">Sign up</a>
+            {% endif %}
           </li>
-          <li class="nav-item">
+          <li class="nav-item">        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
             <a class="nav-link" href="/list">List</a>
           </li>                   
           <li class="nav-item">
             <a class="nav-link" href="/faq">FAQ</a>
           <li class="nav-item">
+            {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-link">Log Out</a>
+            {% else %}
             <a class="nav-link" href="/login">Log In</a>
+            {% endif %}
           </li>
         </ul>
       </div>
@@ -55,19 +71,57 @@
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Template
+    <h1 class="mt-4 mb-3">Full Tracklist
       <small></small>
     </h1>
 
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
       </li>
-      
     </ol>
-
-    <p></p>
+    <p><div class="card mb-4">
+      <div class="card-header"><i class="fas fa-table mr-1"></i>Tracklist</div>
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th>Track</th>
+                          <th>Artist</th>
+                          <th>Url</th>
+                          <th>Text</th>
+                          <th>Date</th>
+                     </tr>
+                  </thead>
+                  <tfoot>
+                      <tr>
+                          <th>Track</th>
+                          <th>Artist</th>
+                          <th>Url</th>
+                          <th>Text</th>
+                          <th>Date</th>
+                      </tr>
+                  </tfoot>
+                  <tbody>
+                      {% for name in track_list %}
+                      <tr>
+                        <td>{{ name.name }}</td>
+                        <td>{{ name.artist.name }}</td>
+                        <td><a href="/">Go</a></td>
+                        <td>Some text</td>
+                        <td>{{ name.artist.date_of_birth }}</td>
+                      </tr>    
+                      {% endfor %}
+                     
+                  </tbody>
+              </table>
+             </p>
+            </div>
+          </div>
+        </div>    
   </div>
+
   <!-- /.container -->
 
   <!-- Footer -->
@@ -81,6 +135,12 @@
   <!-- Bootstrap core JavaScript -->
   <script src="/static/vendor/jquery/jquery.min.js"></script>
   <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="/static/js/scripts.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+  <script src="/static/js/datatables-demo.js"></script>
 
 </body>
 
