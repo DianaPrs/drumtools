@@ -188,10 +188,10 @@
     <!-- Features Section -->
     <div class="row">
       <div class="col-lg-6">
-        <h2>Your tool for creation</h2>
-        <p>In 3 easy steps:</p>
+        <h2>{{ track_list[0].name }}</h2>
+        <p>Speed: {{ track_list[0].speed }}</p>
+        {{ bar_list[0].notes }}
         <div id="boo"></div>
-
       </div>
       <div class="col-lg-6">
         <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
@@ -250,10 +250,7 @@
 
     // Create the notes
     var notes = [
-      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
-      new VF.StaveNote({ keys: ["c/5"], duration: "4r" }),
-      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
-      new VF.StaveNote({ keys: ["c/5"], duration: "4r" })
+      {{ bar_list[0].notes }}
     ];
     var notes2 = [
       new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),

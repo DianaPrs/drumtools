@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from webapp.model import db
+from webapp.model import db, Track, Line, Bar
 
 
 def create_app():
@@ -10,7 +10,11 @@ def create_app():
     @app.route("/")
     def index():
         title = "Drumtools"
-        return render_template('index.html', page_title=title)
+        track_list = Track.query.all()
+        line_list = Line.query.all()
+        bar_list = Bar.query.all()
+        return render_template('index.html', page_title=title, track_list=track_list, line_list=line_list,
+                               bar_list=bar_list)
 
     @app.route("/about")
     def about():
