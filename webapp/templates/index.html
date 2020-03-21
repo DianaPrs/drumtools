@@ -250,7 +250,7 @@
 
     // Create the notes
     var notes = [
-      {{ bar_list[0].notes }}
+      {{ bar_list[0].notes|safe }}
     ];
     var notes2 = [
       new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
