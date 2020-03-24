@@ -1,9 +1,11 @@
 
-from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from flask_login import LoginManager, current_user, login_required
 from flask import Flask, render_template, flash, redirect, url_for
+from webapp.user.views import blueprint as user_blueprint
+from webapp.admin.views import blueprint as admin_blueprint
+from webapp.model import db, Track, Artist
+from webapp.user.models import User
 
-from webapp.model import db, User, Track, Artist
-from webapp.forms import LoginForm
 
 
 def create_app():
@@ -13,7 +15,9 @@ def create_app():
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'login'
+    login_manager.login_view = 'user.login'
+    app.register_blueprint(user_blueprint)
+    app.register_blueprint(admin_blueprint)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -62,40 +66,5 @@ def create_app():
         title = "Account"
         return render_template('account.html', page_title=title, name=current_user.username)
     
-
-    @app.route("/login")
-    def login():
-        title = "Log in"
-        login_form = LoginForm()
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))
-        return render_template('login.html', page_title=title, form=login_form)
-    
-    @app.route('/process-login', methods=['POST'])
-    def process_login():
-        form = LoginForm()
-        if form.validate_on_submit():
-            user = User.query.filter_by(username=form.username.data).first()
-            if user and user.check_password(form.password.data):
-                login_user(user)
-                flash('Welcome!')
-                return redirect(url_for('account'))
-
-        flash('Incorrect usrname or password')
-        return redirect(url_for('login'))
-
-    @app.route('/logout')
-    def logout():
-        logout_user()
-        return redirect(url_for('index'))
-
-    @app.route('/admin')
-    @login_required
-    def admin_index():
-        if current_user.is_admin:
-            return 'Hello Admin'
-        else:
-            return 'You are not Admin!'
-        
 
     return app
