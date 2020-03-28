@@ -129,9 +129,14 @@
     <!-- Features Section -->
     <div class="row">
       <div class="col-lg-6">
-        <h2>Your tool for creation</h2>
-        <p>In 3 easy steps:</p>
-        <div id="boo"></div>
+        <h2>{{ track_list[0].artist.name }} - {{ track_list[0].name }}</h2>
+        <p>track_list[0].speed: {{ track_list[0].speed }}</p>
+        <p>track_list[0].bars[0].notes:</p>
+        <p>{{ track_list[0].bars[0].notes }}</p>
+        {% for bars in track_list[0].bars %}
+        <div id="boo{{ bars.number }}"></div>
+        <hr />
+        {% endfor %}
 
       </div>
       <div class="col-lg-6">
@@ -142,61 +147,55 @@
 
   <script src="https://npmcdn.com/vexflow@1.2.84/releases/vexflow-debug.js"></script>
 
-  
-  <script>
-    VF = Vex.Flow;
+  <!-- Начинается скрипт вывода нот -->
+  {% for track in track_list%}
+  <h2>{{ track.name }} - {{ track.artist.name }}</h2>
+    {% for bars in track.bars %}
+    <script>
+      VF = Vex.Flow;
 
-    // Create an SVG renderer and attach it to the DIV element named "boo".
-    var div = document.getElementById("boo")
-    var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
+      // Create an SVG renderer and attach it to the DIV element named "boo".
+      var div = document.getElementById("boo{{ bars.number }}")
+      var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
 
-    // Configure the rendering context.
-    renderer.resize(500, 500);
-    var context = renderer.getContext();
-    context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
+      // Configure the rendering context.
+      renderer.resize(410, 150);
+      var context = renderer.getContext();
+      context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
 
-    // Create a stave of width 400 at position 10, 40 on the canvas.
-    var stave = new VF.Stave(10, 40, 400);
+      // Create a stave of width 400 at position 10, 40 on the canvas.
+      var stave = new VF.Stave(10, 40, 400);
 
-    // Add a clef and time signature.
-    stave.addClef("treble").addTimeSignature("4/4");
+      // Add a clef and time signature.
+      stave.addClef("treble").addTimeSignature("4/4");
 
-    // Connect it to the rendering context and draw!
-    stave.setContext(context).draw();
+      // Connect it to the rendering context and draw!
+      stave.setContext(context).draw();
 
-    // Create the notes
-    var notes = [
-      // A quarter-note C.
-      new VF.StaveNote({ keys: ["c/4"], duration: "q" }),
+      // Create the notes
+      var notes = [
+        {{ bars.notes|safe }}
+      ];
 
-      // A quarter-note D.
-      new VF.StaveNote({ keys: ["d/4"], duration: "q" }),
+      // // Create a voice in 4/4 and add above notes - вывод нот, но не соединенных друг с другом
+      // var voice = new VF.Voice({num_beats: 4,  beat_value: 4});
+      // voice.addTickables(notes);
 
-      // A quarter-note rest. Note that the key (b/4) specifies the vertical
-      // position of the rest.
-      new VF.StaveNote({ keys: ["b/4"], duration: "qr" }),
+      // Делаем так, чтобы ноты записывались соединенными.
+      var beams = VF.Beam.generateBeams(notes);
+      VF.Formatter.FormatAndDraw(context, stave, notes);
+      beams.forEach(function(b) {b.setContext(context).draw()})
 
-      // A C-Major chord.
-      new VF.StaveNote({ keys: ["c/4", "e/4", "g/4"], duration: "q" })
-    ];
+      // Format and justify the notes to 400 pixels.
+      // var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
 
-    // // Create a voice in 4/4 and add above notes - вывод нот, но не соединенных друг с другом
-    // var voice = new VF.Voice({num_beats: 4,  beat_value: 4});
-    // voice.addTickables(notes);
+      // Render voice
+      // voice.draw(context, stave);
 
-    // Делаем так, чтобы ноты записывались соединенными.
-    var beams = VF.Beam.generateBeams(notes);
-    VF.Formatter.FormatAndDraw(context, stave, notes);
-    beams.forEach(function(b) {b.setContext(context).draw()})
-
-    // Format and justify the notes to 400 pixels.
-    var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
-
-    // Render voice
-    voice.draw(context, stave);
-
-  </script>
-   </div>
+    </script>
+    {% endfor %}
+  {% endfor %}
+</body>
 
     <!-- Call to Action Section -->
     <div class="row mb-4">

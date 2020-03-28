@@ -1,9 +1,11 @@
+from flask import Flask, render_template
+from flask_migrate import Migrate
 
 from flask_login import LoginManager, current_user, login_required
 from flask import Flask, render_template, flash, redirect, url_for
 from webapp.user.views import blueprint as user_blueprint
 from webapp.admin.views import blueprint as admin_blueprint
-from webapp.model import db, Track, Artist
+from webapp.model import db, Track, Line, Bar, Artist
 from webapp.user.models import User
 
 
@@ -12,6 +14,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -26,7 +29,9 @@ def create_app():
     @app.route("/")
     def index():
         title = "Drumtools"
-        return render_template('index.html', page_title=title)
+        track_list = Track.query.order_by(Track.id.desc())[:3]
+        return render_template('index.html', page_title=title, track_list=track_list, line_list=line_list,
+                               bar_list=bar_list, artist_list=artist_list)
 
     @app.route("/about")
     def about():

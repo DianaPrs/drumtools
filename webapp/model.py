@@ -9,7 +9,6 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     date_of_birth = db.Column(db.Integer, nullable=True)
-    
 
     def __repr__(self):
         return f'Artist: {self.name}, Date of Birth: {self.date_of_birth}'
@@ -36,14 +35,14 @@ class Line(db.Model):
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=False)
 
     sequence = db.Column(db.Integer, nullable=False)
-    position_1 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=False)
-    position_2 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_3 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_4 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_5 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_6 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_7 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    position_8 = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
+    position_1 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=False)
+    position_2 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_3 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_4 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_5 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_6 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_7 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
+    position_8 = db.Column(db.Integer, db.ForeignKey('bars.id'), index=True, nullable=True)
     accent_1 = db.Column(db.Boolean, nullable=True)
     accent_2 = db.Column(db.Boolean, nullable=True)
     accent_3 = db.Column(db.Boolean, nullable=True)
@@ -71,11 +70,8 @@ class Bar(db.Model):
     number = db.Column(db.Integer, nullable=False)
     empty = db.Column(db.Boolean, nullable=True)
     half = db.Column(db.Boolean, nullable=True)
+    track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=True)
+    track = db.relationship('Track', backref=db.backref('bars', lazy='dynamic'))
 
     def __repr__(self):
         return f'Bar {self.id}, number: {self.number}, empty={self.empty}, half={self.half}, notes: {self.notes}'
-
-
-
-
-    
