@@ -134,6 +134,7 @@
         <p>track_list[0].bars[0].notes:</p>
         <p>{{ track_list[0].bars[0].notes }}</p>
         {% for bars in track_list[0].bars %}
+        <p>Bar #{{ bars.number }}</p>
         <div id="boo{{ bars.number }}"></div>
         <hr />
         {% endfor %}

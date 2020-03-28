@@ -131,3 +131,5 @@ dmypy.json
 .pyre/
 /drumtools.iml
 /.idea/
+
+webapp.db
