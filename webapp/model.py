@@ -7,7 +7,7 @@ class Artist(db.Model):
     __tablename__ = 'artists'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    date_of_birth = db.Column(db.DateTime, nullable=True)
+    date_of_birth = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'<Artist: {self.name}, Date of Birth: {self.date_of_birth}>'
@@ -70,8 +70,7 @@ class Bar(db.Model):
     number = db.Column(db.Integer, nullable=False)
     empty = db.Column(db.Boolean, nullable=True)
     half = db.Column(db.Boolean, nullable=True)
-
-    track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=False)
+    track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=True)
     track = db.relationship('Track', backref=db.backref('bars', lazy='dynamic'))
 
     def __repr__(self):

@@ -188,10 +188,15 @@
     <!-- Features Section -->
     <div class="row">
       <div class="col-lg-6">
-        <h2>{{ track_list[0].name }}</h2>
-        <p>Speed: {{ track_list[0].speed }}</p>
-        {{ bar_list[0].notes }}
-        <div id="boo"></div>
+        <h2>{{ track_list[0].artist.name }} - {{ track_list[0].name }}</h2>
+        <p>track_list[0].speed: {{ track_list[0].speed }}</p>
+        <p>track_list[0].bars[0].notes:</p>
+        <p>{{ track_list[0].bars[0].notes }}</p>
+        {% for bars in track_list[0].bars %}
+        <div id="boo{{ bars.number }}"></div>
+        <hr />
+        {% endfor %}
+
       </div>
       <div class="col-lg-6">
         <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
@@ -227,15 +232,16 @@
   <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Начинается скрипт вывода нот -->
+  {% for bars in track_list[0].bars %}
   <script>
     VF = Vex.Flow;
 
     // Create an SVG renderer and attach it to the DIV element named "boo".
-    var div = document.getElementById("boo")
+    var div = document.getElementById("boo{{ bars.number }}")
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
 
     // Configure the rendering context.
-    renderer.resize(500, 500);
+    renderer.resize(410, 150);
     var context = renderer.getContext();
     context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
 
@@ -250,13 +256,7 @@
 
     // Create the notes
     var notes = [
-      {{ bar_list[0].notes|safe }}
-    ];
-    var notes2 = [
-      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
-      new VF.StaveNote({ keys: ["c/5"], duration: "4r" }),
-      new VF.StaveNote({ keys: ["c/5", "d/5"], duration: "4" }),
-      new VF.StaveNote({ keys: ["c/5"], duration: "4r" })
+      {{ bars.notes|safe }}
     ];
 
     // // Create a voice in 4/4 and add above notes - вывод нот, но не соединенных друг с другом
@@ -264,7 +264,7 @@
     // voice.addTickables(notes);
 
     // Делаем так, чтобы ноты записывались соединенными.
-    var beams = VF.Beam.generateBeams(notes, notes2);
+    var beams = VF.Beam.generateBeams(notes);
     VF.Formatter.FormatAndDraw(context, stave, notes);
     beams.forEach(function(b) {b.setContext(context).draw()})
 
@@ -275,6 +275,7 @@
     // voice.draw(context, stave);
 
   </script>
+  {% endfor %}
 </body>
 
 </html>

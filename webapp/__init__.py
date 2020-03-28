@@ -1,20 +1,24 @@
 from flask import Flask, render_template
-from webapp.model import db, Track, Line, Bar
+from flask_migrate import Migrate
+
+from webapp.model import db, Track, Line, Bar, Artist
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     @app.route("/")
     def index():
         title = "Drumtools"
+        artist_list = Artist.query.all()
         track_list = Track.query.all()
         line_list = Line.query.all()
         bar_list = Bar.query.all()
         return render_template('index.html', page_title=title, track_list=track_list, line_list=line_list,
-                               bar_list=bar_list)
+                               bar_list=bar_list, artist_list=artist_list)
 
     @app.route("/about")
     def about():
