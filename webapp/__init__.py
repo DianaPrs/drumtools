@@ -30,8 +30,7 @@ def create_app():
     def index():
         title = "Drumtools"
         track_list = Track.query.order_by(Track.id.desc())[:3]
-        return render_template('index.html', page_title=title, track_list=track_list, line_list=line_list,
-                               bar_list=bar_list, artist_list=artist_list)
+        return render_template('index.html', page_title=title, track_list=track_list)
 
     @app.route("/about")
     def about():
@@ -42,11 +41,6 @@ def create_app():
     def creat():
         title = "Create"
         return render_template('create.html', page_title=title)
-
-    @app.route("/signup")
-    def sign_up():
-        title = "Sign Up"
-        return render_template('signup.html', page_title=title)
 
     @app.route("/feedback")
     def feedback():
