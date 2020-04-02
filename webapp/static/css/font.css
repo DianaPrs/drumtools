@@ -1,0 +1,14 @@
+ 
+@font-face {
+  font-family: "CavatinaUS";
+  src: url("/static/css/CavatinaUS.otf") format("opentype");
+  
+}
+
+textarea {
+    font-family: CavatinaUS;
+    font-size: 15rem;
+    color: black;
+    width: 70%;
+}
+  

@@ -1,81 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>{{ page_title }}</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="/static/css/modern-business.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-  <!-- Navigation -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">Drumtools</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/create">Create</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup">Sign up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/list">List</a>
-          </li>                   
-          <li class="nav-item">
-            <a class="nav-link" href="/faq">FAQ</a>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/login">Log In</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container">
+<!-- Page Content -->
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+  
+ 
 
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">Registration
       <small></small>
     </h1>
-
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a href="/">Home</a>
       </li>
-      
-    </ol>
-
+      </ol>
   </ol>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <div class="alert alert-warning" role="alert">
-      {% for message in messages %}
-          {{ message }}<br>
-      {% endfor %}
-  </div>
-  {% endif %}
-  {% endwith %}
+
   <form action="{{ url_for('user.process_reg') }}" method="post">
   <p> {{ form.hidden_tag() }}
     <div class="form-group">
@@ -100,18 +51,4 @@
 </div>
   <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Drumtools 2020</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="/static/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+  {% endblock %}
