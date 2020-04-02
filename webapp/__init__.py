@@ -65,5 +65,4 @@ def create_app():
         title = "Account"
         return render_template('account.html', page_title=title, name=current_user.username)
     
-
     return app
