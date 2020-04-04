@@ -70,8 +70,27 @@ class Bar(db.Model):
     number = db.Column(db.Integer, nullable=False)
     empty = db.Column(db.Boolean, nullable=True)
     half = db.Column(db.Boolean, nullable=True)
+    clef = db.Column(db.String, nullable=True, default="bass")
+    time_signature = db.Column(db.String, nullable=True, default="4/4")
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=True)
     track = db.relationship('Track', backref=db.backref('bars', lazy='dynamic'))
 
     def __repr__(self):
         return f'Bar {self.id}, number: {self.number}, empty={self.empty}, half={self.half}, notes: {self.notes}'
+
+
+class StringNote(db.Model):
+    __tablename__ = "string_notes"
+    id = db.Column(db.Integer, primary_key=True)
+
+    bar_id = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
+    bar = db.relationship('Bar', backref=db.backref('string_notes', lazy='dynamic'))
+
+    number = db.Column(db.Integer, nullable=True)
+    keys = db.Column(db.String, nullable=True)
+    duration = db.Column(db.String, nullable=True)
+    accidental = db.Column(db.String, nullable=True)
+    dot = db.Column(db.Boolean, nullable=True)
+
+    def __repr__(self):
+        return f"Note id: {self.id}, "
