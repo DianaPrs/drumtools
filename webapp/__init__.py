@@ -1,27 +1,28 @@
-from flask import Flask, render_template
 from flask_migrate import Migrate
-
+from flask_admin import Admin
 from flask_login import LoginManager, current_user, login_required
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template
+
 from webapp.user.views import blueprint as user_blueprint
-from webapp.admin.views import blueprint as admin_blueprint
+from webapp.admin.views import MyView, MyAdminIndexView, UserView, TutorView
 from webapp.model import db, Track, Line, Bar, Artist
-from webapp.user.models import User
-
-
+from webapp.user.models import User, UserData
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
     migrate = Migrate(app, db)
-
+    admin = Admin(app, index_view=MyAdminIndexView())
+    admin.add_view(MyView(name='View'))
+    admin.add_view(UserView(User, db.session))
+    admin.add_view(TutorView(Track, db.session))
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'user.login'
     app.register_blueprint(user_blueprint)
-    app.register_blueprint(admin_blueprint)
-
+    
+    
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
@@ -31,7 +32,7 @@ def create_app():
         title = "Drumtools"
         track_list = Track.query.order_by(Track.id.desc())[:3]
         return render_template('index.html', page_title=title, track_list=track_list)
-
+                                    
     @app.route("/about")
     def about():
         title = "About"
@@ -43,6 +44,7 @@ def create_app():
         return render_template('create.html', page_title=title)
 
     @app.route("/feedback")
+    @login_required
     def feedback():
         title = "Feedback"
         return render_template('feedback.html', page_title=title)
@@ -63,6 +65,8 @@ def create_app():
     @login_required
     def account():
         title = "Account"
-        return render_template('account.html', page_title=title, name=current_user.username)
+        track_count = UserData.query.filter(UserData.user_id == current_user.id).count()   
+        return render_template('account.html', page_title=title, name=current_user.username, track_count=track_count, role=current_user.role, email=current_user.email)
     
+
     return app

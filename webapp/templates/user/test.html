@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{ page_title }}</title>
+
+<link href="/static/css/font.css" rel="stylesheet">
+</head>
+
+<body>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert alert-warning" role="alert">
+      {% for message in messages %}
+          {{ message }}<br>
+      {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+<form action="{{ url_for('users.add_track') }}" method="POST">
+  {{ track_form.hidden_tag() }}
+<div class="form form-group">
+  {{ track_form.artist.label }}
+  {{ track_form.artist() }}
+  {{ track_form.title.label }}
+  {{ track_form.title() }}
+  {{ track_form.comment.label }}
+  {{ track_form.comment() }}
+  {{ track_form.notes() }}
+</div>
+   {{ track_form.submit() }}
+</form>
+
+<form>
+    <div class="form-group">
+      <textarea class="form-control" rows="1"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+</body>
+
+</html>

@@ -1,10 +1,10 @@
-from webapp.user.models import User 
-from webapp.user.forms import LoginForm, RegistrationForm
+from webapp.user.models import User, UserData
+from webapp.user.forms import LoginForm, RegistrationForm, TrackForm
 from webapp.model import db
-from flask_login import current_user, login_user, logout_user 
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask_login import current_user, login_user, logout_user, login_required
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 
-blueprint = Blueprint('user', __name__, url_prefix='/users')
+blueprint = Blueprint('users', __name__, url_prefix='/users')
  
 @blueprint.route("/login")
 def login():
@@ -25,7 +25,7 @@ def process_login():
             return redirect(url_for('account'))
 
     flash('Incorrect usrname or password')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('users.login'))
 
 @blueprint.route('/logout')
 def logout():
@@ -49,7 +49,7 @@ def process_reg():
         db.session.add(new_user)
         db.session.commit()
         flash('Successful registration')
-        return redirect(url_for('user.login'))
+        return redirect(url_for('users.login'))
     else:
         for field, errors in form.errors.items():
             for error in errors:
@@ -57,5 +57,28 @@ def process_reg():
                     getattr(form, field).label.text,
                     error
                 ))
-        return redirect(url_for('user.signup'))
+        return redirect(url_for('users.signup'))
 
+@blueprint.route('/test')
+def create():
+    title= "Create track"
+    track_form = TrackForm(user_id=current_user.id)
+    return render_template('/user/test.html', page_title=title,  track_form=track_form)
+
+@login_required
+@blueprint.route('/user/test', methods=['POST'])
+def add_track():
+    form = TrackForm()
+    if form.validate_on_submit():
+            track = UserData(artist=form.artist.data, title=form.title.data, comment=form.comment.data, notes=form.notes.data, user_id=current_user.id)
+            db.session.add(track)
+            db.session.commit()
+            flash('Successfully added')
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Mistake in field "{}": - {}'.format(
+                    getattr(form, field).label.text,
+                    error
+                ))        
+    return redirect(request.referrer)            
