@@ -141,7 +141,7 @@ sup {
   position: relative;
   font-size: 75%;
   line-height: 0;
-  vertical-align: baseline;
+  vertical-align: baseline;12
 }
 
 sub {
@@ -245,6 +245,7 @@ textarea {
   font-size: inherit;
   line-height: inherit;
 }
+
 
 button,
 input {

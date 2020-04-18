@@ -11,7 +11,7 @@
       </ol>
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('../static/img/drums_1.jpg')">
+        <div class="carousel-item active" style="background-image: url('/static/img/drums_1.jpg')">
           <div class="carousel-caption d-none d-md-block">
             <h3>First Slide</h3>
             <p>This is a description for the first slide.</p>
@@ -97,7 +97,7 @@
             <h4 class="card-title">
               <a href="#">The White Sripes</a>
             </h4>
-            <p>...</p>
+          
           </div>
         </div>
       </div>
@@ -126,9 +126,10 @@
      </div> 
     <!-- /.row -->
     <hr>
-    <!-- Features Section -->
+    </div>
     <div class="row">
       <div class="col-lg-6">
+<<<<<<< HEAD
         {% for track in track_list%}
           <h2>{{ track.artist.name }} - {{ track.name }}</h2>
           {% for bars in track.bars %}
@@ -138,8 +139,14 @@
           {% endfor %}
         {% endfor %}
 
+=======
+        <img class="img-fluid rounded" src="/static/" alt="">
+>>>>>>> origin/features/navbar
       </div>
+       <!-- Features Section -->
+    
       <div class="col-lg-6">
+<<<<<<< HEAD
         <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
       </div>
    
@@ -199,12 +206,78 @@
     <!-- Call to Action Section -->
     <div class="row mb-4">
       <div class="col-md-8">
+=======
+        {% for track in track_list%}
+          <h2>{{ track.artist.name }} - {{ track.name }}</h2>
+          {% for bars in track.bars %}
+            <p>Bar #{{ bars.number }}</p>
+            <div id="boo{{ bars.number }}"></div>
+            <hr />
+          {% endfor %}
+          {% endfor %}
+
+      <script src="/static/js/vexflow-debug.js"></script>
+
+      <!-- Начинается скрипт вывода нот -->
+      {% for track in track_list%}
+      {% for bars in track.bars %}
+      <script>
+        VF = Vex.Flow;
+
+        // Create an SVG renderer and attach it to the DIV element named "boo".
+        var div = document.getElementById("boo{{ bars.number }}")
+        var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
+
+        // Configure the rendering context.
+        renderer.resize(410, 130);
+        var context = renderer.getContext();
+        context.setFont("Arial", 10, "").setBackgroundFillStyle("#eed");
+
+        // Create a stave of width 400 at position 10, 40 on the canvas.
+        var stave = new VF.Stave(10, 10, 400);
+
+        // Add a clef and time signature.
+        stave.addClef("bass").addTimeSignature("4/4");
+
+        // Connect it to the rendering context and draw!
+        stave.setContext(context).draw();
+
+        // Create the notes
+        var notes = [
+          {{ bars.notes|safe }}
+        ];
+
+        // Делаем так, чтобы ноты записывались соединенными.
+        var beams = VF.Beam.generateBeams(notes);
+        VF.Formatter.FormatAndDraw(context, stave, notes);
+        beams.forEach(function(b) {b.setContext(context).draw()})
+
+      </script>
+      {% endfor %}
+      {% endfor %}
+        <!--
+        Вырезал из скрипта, чтобы разобраться, что делает код.
+        Его можно использовать вместо var beams:
+        // // Create a voice in 4/4 and add above notes - вывод нот, но не соединенных друг с другом
+        // var voice = new VF.Voice({num_beats: 4,  beat_value: 4});
+        // voice.addTickables(notes);
+        // Format and justify the notes to 400 pixels.
+        // var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
+        // Render voice
+        // voice.draw(context, stave);
+        -->
+       <!-- Call to Action Section -->
+      
+       <div class="row mb-4">
+        <div class="col-md-8">
+>>>>>>> origin/features/navbar
         <p>Join us and bla bla bla.</p>
-      </div>
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary btn-block" href="/signup">Sign Up Now</a>
+        </div>
+        <div class="col-md-4">
+          <a  href="/users/signup" class="btn btn-lg btn-secondary btn-block">Sign Up Now</a>
+        </div>
       </div>
     </div>
-</div>
+  </div>  
 <!-- /.container -->
 {% endblock %}

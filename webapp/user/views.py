@@ -33,7 +33,7 @@ def logout():
     return redirect(url_for('index'))
 
 @blueprint.route('/signup')
-def sign_up():
+def signup():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     title = "Sign Up"
@@ -50,5 +50,12 @@ def process_reg():
         db.session.commit()
         flash('Successful registration')
         return redirect(url_for('user.login'))
-    flash('Plese, enter correct data')
-    return redirect(url_for('user.signup'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Mistake in field "{}": - {}'.format(
+                    getattr(form, field).label.text,
+                    error
+                ))
+        return redirect(url_for('user.signup'))
+
