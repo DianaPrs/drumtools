@@ -21,6 +21,7 @@ function get_notes() {
           success: function(response) {
               var json = jQuery.parseJSON(response)
               $('#view').html(json.view)
+              $('#notes').val(json.data);
               console.log(response);
                        
             },

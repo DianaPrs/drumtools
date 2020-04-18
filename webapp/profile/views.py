@@ -31,8 +31,9 @@ def get_notes():
     pattern = r'<td>(.*?)</td>'     
     match = re.findall(pattern, name)
     list_view = match[::2]
-    table_view = json.dumps({'view': list_view}) 
-    print(list_view)
+    dict_view = str(dict(zip(range(1, (len(list_view)+1)), list_view)))
+    table_view = json.dumps({'view': list_view, 'data': dict_view}) 
+    print(table_view)
     return table_view
 
 @blueprint.route('add_track', methods=['POST'])
