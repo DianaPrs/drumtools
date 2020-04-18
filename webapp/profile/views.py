@@ -18,6 +18,13 @@ def account():
     track_count = UserData.query.filter(UserData.user_id == current_user.id).count()   
     return render_template('profile/account.html', page_title=title, name=current_user.username, track_count=track_count, role=current_user.role, email=current_user.email)
 
+@blueprint.route("/mylist")
+@login_required
+def mylist():
+    title = "My List"
+    data = UserData.query.filter(UserData.user_id == current_user.id).all()
+    return render_template('/profile/mylist.html', page_title=title, data=data)
+
 @blueprint.route('/newtrack')
 @login_required
 def newtrack():

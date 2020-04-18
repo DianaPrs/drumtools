@@ -45,4 +45,5 @@ class UserData(db.Model):
     user = relationship('User', backref='UserData')
 
     def __repr__(self):
-        return 'UserData {}'.format(self.id)
+        #return 'UserData {}'.format(self.id)
+        return f'{self.id}, {self.artist}, {self.title}, {self.comment}'

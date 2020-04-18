@@ -6,7 +6,7 @@
             {% if current_user.is_tutor %}
           <a href="/admin/track" class="list-group-item">Tracks</a>
               {% else %}
-          <a href="mylist.html" class="list-group-item">My List</a>
+          <a href="{{ url_for('profile.mylist') }}" class="list-group-item">My List</a>
               {% endif %}
           <a href="{{ url_for('profile.newtrack') }}" class="list-group-item" >New Track</a>
           <a href="printing.html" class="list-group-item">Printing Table</a>

@@ -2,20 +2,13 @@
 
 {% block content %}
 
+{% include 'profile/message.html' %}
   <!-- Page Content -->
-  {% include 'profile/message.html' %}
   <div class="container">
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Profile
-      <small>{{ role }}</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="/">Home</a>
-      </li>
-    </ol>
-    <div class="row">
-    {% include 'profile/sidebar.html' %}
+<!-- Page Heading/Breadcrumbs -->
+{% include 'profile/heading.html' %} 
+<!-- Side Menu -->
+{% include 'profile/sidebar.html' %}
     <!-- Content Row -->
  
       <!-- Content Column -->
