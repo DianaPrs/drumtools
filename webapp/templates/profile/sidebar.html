@@ -1,0 +1,17 @@
+
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+        <div class="list-group">
+          <a href="{{ url_for('profile.account') }}" class="list-group-item">Profile</a>
+            {% if current_user.is_tutor %}
+          <a href="/admin/track" class="list-group-item">Tracks</a>
+              {% else %}
+          <a href="mylist.html" class="list-group-item">My List</a>
+              {% endif %}
+          <a href="{{ url_for('profile.newtrack') }}" class="list-group-item" >New Track</a>
+          <a href="printing.html" class="list-group-item">Printing Table</a>
+          <a href="{{ url_for('feedback') }}" class="list-group-item">Feedback</a>
+          <a href="{{ url_for('users.logout') }}" class="list-group-item">Log Out</a>
+        </div>
+      </div>
+   

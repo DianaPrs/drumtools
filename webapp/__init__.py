@@ -1,12 +1,14 @@
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_login import LoginManager, current_user, login_required
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 from webapp.user.views import blueprint as user_blueprint
+from webapp.profile.views import blueprint as profile_blueprint
 from webapp.admin.views import MyView, MyAdminIndexView, UserView, TutorView
 from webapp.model import db, Track, Line, Bar, Artist
 from webapp.user.models import User, UserData
+
 
 def create_app():
     app = Flask(__name__)
@@ -19,10 +21,14 @@ def create_app():
     admin.add_view(TutorView(Track, db.session))
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'user.login'
+    login_manager.login_view = 'users.login'
     app.register_blueprint(user_blueprint)
-    
-    
+    app.register_blueprint(profile_blueprint)
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('404.html'), 404
+     
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
@@ -39,7 +45,7 @@ def create_app():
         return render_template('about.html', page_title=title)
 
     @app.route("/create")
-    def creat():
+    def create():
         title = "Create"
         return render_template('create.html', page_title=title)
 
@@ -61,12 +67,5 @@ def create_app():
         title = "FAQ"
         return render_template('faq.html', page_title=title)
 
-    @app.route("/account")
-    @login_required
-    def account():
-        title = "Account"
-        track_count = UserData.query.filter(UserData.user_id == current_user.id).count()   
-        return render_template('account.html', page_title=title, name=current_user.username, track_count=track_count, role=current_user.role, email=current_user.email)
-    
-
+   
     return app

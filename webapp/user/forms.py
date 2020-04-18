@@ -34,7 +34,7 @@ class TrackForm(FlaskForm):
     artist = StringField('Artist', validators=[DataRequired()])
     title = StringField('Title', validators=[DataRequired()])
     comment = StringField('Comment', validators=[DataRequired()])
-    notes = TextAreaField('Notes', validators=[DataRequired()])
+    notes = HiddenField('Notes', validators=[DataRequired()])
     submit = SubmitField('Save', render_kw={"class": "btn btn-primary"})
 
     def validate_user_id(self, user_id):

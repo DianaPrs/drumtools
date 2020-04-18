@@ -2,7 +2,7 @@ from flask_login import current_user
 from flask import redirect, url_for, flash
 from flask_admin import AdminIndexView, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
-from webapp.user.decorators import admin_required
+from webapp.admin.decorators import admin_required
 
 
 class MyView(BaseView):
@@ -20,7 +20,7 @@ class UserView(ModelView):
      
     def inaccessible_callback(self, name, *kwargs):
         flash('You have to be Tutor to access this page.')
-        return redirect(url_for('account'))
+        return redirect(url_for('profile.account'))
 
 class TutorView(ModelView):
     def is_accessible(self):
@@ -28,7 +28,7 @@ class TutorView(ModelView):
      
     def inaccessible_callback(self, name, *kwargs):
         flash('You have to be Tutor to access this page.')
-        return redirect(url_for('account'))    
+        return redirect(url_for('profile.account'))    
 
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
@@ -36,4 +36,4 @@ class MyAdminIndexView(AdminIndexView):
 
     def inaccessible_callback(self, name, *kwargs):
         flash('You have to be Admin to access this page.')
-        return redirect(url_for('account'))
+        return redirect(url_for('profile.account'))
