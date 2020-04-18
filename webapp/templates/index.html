@@ -171,14 +171,16 @@
       var stave = new VF.Stave(10, 10, 400);
 
       // Add a clef and time signature.
-      stave.addClef("bass").addTimeSignature("4/4");
+      stave.addClef("{{ bars.clef }}").addTimeSignature("{{ bars.time_signature }}");
 
       // Connect it to the rendering context and draw!
       stave.setContext(context).draw();
 
       // Create the notes
       var notes = [
-        {{ bars.notes|safe }}
+        {% for string_notes in bars.string_notes %}
+          new VF.StaveNote({ keys: [{{ string_notes.keys|safe }}], duration: "{{ string_notes.duration }}" }),
+      {% endfor %}
       ];
 
       // Делаем так, чтобы ноты записывались соединенными.
