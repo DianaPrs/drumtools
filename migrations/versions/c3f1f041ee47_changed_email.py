@@ -1,9 +1,7 @@
 """changed email
-
 Revision ID: c3f1f041ee47
 Revises: e8a33f80703e
 Create Date: 2020-03-28 23:19:28.402990
-
 """
 from alembic import op
 import sqlalchemy as sa
@@ -71,4 +69,4 @@ def downgrade():
     op.drop_index(op.f('ix_user_username'), table_name='user')
     op.drop_index(op.f('ix_user_role'), table_name='user')
     op.drop_table('user')
-    # ### end Alembic commands ###
+# ### end Alembic commands ###

@@ -1,30 +1,47 @@
-  <!-- Navigation -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">Drumtools</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+<!-- Navigation --> 
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">Drumtools</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          {% if current_user.is_authenticated %}
+              {% if current_user.is_admin %}
+              <a class="nav-link" href="{{ url_for('admin.index') }}">Admin</a>
+              {% else %}
+              <a class="nav-link" href="{{ url_for('profile.account') }}">Profile</a>
+              {% endif %}
+          {% else %}    
             <a class="nav-link" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/create">Create</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/feedback">Feedback</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/list">List</a>
-          </li>                   
-          <li class="nav-item">
-            <a class="nav-link" href="/faq">FAQ</a>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/logout">Log Out</a>
-          </li>
-        </ul>
-      </div>
+          {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="/create">Create</a>
+        </li>
+        <li class="nav-item">
+          {% if current_user.is_authenticated %}
+          <a class="nav-link" href="{{ url_for('feedback') }}">Feedback</a>
+          {% else %}
+          <a class="nav-link" href="{{ url_for('users.signup') }}">Sign up</a>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/list">List</a>
+        </li>                   
+        <li class="nav-item">
+          <a class="nav-link" href="/faq">FAQ</a>
+        <li class="nav-item">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('users.logout') }}" class="nav-link">Log Out</a>
+          {% else %}
+          <a class="nav-link" href="{{ url_for('users.login') }}">Log In</a>
+          {% endif %}
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
+

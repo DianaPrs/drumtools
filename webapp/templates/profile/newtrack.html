@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include 'profile/message.html' %}
+
+<!-- Page Content -->
+<div class="container">
+<!-- Page Heading/Breadcrumbs -->
+{% include 'profile/heading.html' %} 
+
+
+<!-- Content Row -->
+{% include 'profile/sidebar.html' %}
+  <!-- Content Column -->
+  <div class="col-lg-9 mb-4">
+    <h2>New track</h2>
+<form action="{{ url_for('profile.add_track') }}" method="POST">
+  {{ track_form.hidden_tag() }}
+<div class="form form-group">
+  {{ track_form.artist.label }}
+  {{ track_form.artist() }}<br>
+  {{ track_form.title.label }}
+  {{ track_form.title() }}<br>
+  {{ track_form.comment.label }}
+  {{ track_form.comment() }}<br>
+ 
+
+<!-- Modal Results <div id="len">-->  
+<table id="view"><tr></tr></table>
+<!-- Modal Call -->
+  <a data-toggle="modal" href="#myModal" data-target="#myModal" data-backdrop="static" onclick=hide>Add Notes</a>
+ </div>
+   {{ track_form.submit() }}
+</form>
+
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal fade" role="dialog" name="modal">
+      <div class="modal-dialog"> 
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Add Notes</h3>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <link href="/static/css/font.css" rel="stylesheet">
+              <script src="/static/js/music.js"></script>
+
+                Enter notes:<br>
+                <textarea id="rawnotes" name="bt"></textarea>
+                <input type="button" value="Add" onClick="btnClick();">
+                <form>
+                <input type="hidden" name="name" id="hf">
+                <div class="table">
+                <table id="table" name="table"></table>
+                </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary" onclick="get_notes();">Save changes</button>
+            </div>
+
+      </div>
+    </div>
+  </div>
+
+
+          </div>
+      </div>
+  </div>
+
+{% endblock %}

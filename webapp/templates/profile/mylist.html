@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'profile/message.html' %}
+
+  <!-- Page Content -->
+  <div class="container">
+<!-- Page Heading/Breadcrumbs -->     
+{% include 'profile/heading.html' %} 
+<!-- Side Menu -->
+{% include 'profile/sidebar.html' %}    
+
+<div class="col-lg-9 mb-4">
+    <h2>My Tracks</h2>
+   
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Comment</th>
+                    <th>URL</th>
+                    <th>Date</th>
+               </tr>
+            </thead>
+            <tbody>
+                {% for name in data %}
+            <tr>
+                <td>{{ name.title }}</td>
+                <td>{{ name.artist }}</td>
+                <td>{{ name.comment }}</td>
+                <td><a href="/">Go</a></td>
+                <td>{{ name.created }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+ </div>
+ </div>
+ </div>
+ </div>   
+
+{% endblock %}

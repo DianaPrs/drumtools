@@ -1,10 +1,10 @@
-from webapp.user.models import User 
+from webapp.user.models import User
 from webapp.user.forms import LoginForm, RegistrationForm
 from webapp.model import db
-from flask_login import current_user, login_user, logout_user 
+from flask_login import current_user, login_user, logout_user
 from flask import Blueprint, render_template, flash, redirect, url_for
 
-blueprint = Blueprint('user', __name__, url_prefix='/users')
+blueprint = Blueprint('users', __name__, url_prefix='/users')
  
 @blueprint.route("/login")
 def login():
@@ -22,10 +22,10 @@ def process_login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Welcome!')
-            return redirect(url_for('account'))
+            return redirect(url_for('profile.account'))
 
     flash('Incorrect usrname or password')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('users.login'))
 
 @blueprint.route('/logout')
 def logout():
@@ -33,7 +33,7 @@ def logout():
     return redirect(url_for('index'))
 
 @blueprint.route('/signup')
-def sign_up():
+def signup():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     title = "Sign Up"
@@ -49,6 +49,14 @@ def process_reg():
         db.session.add(new_user)
         db.session.commit()
         flash('Successful registration')
-        return redirect(url_for('user.login'))
-    flash('Plese, enter correct data')
-    return redirect(url_for('user.signup'))
+        return redirect(url_for('users.login'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Mistake in field "{}": - {}'.format(
+                    getattr(form, field).label.text,
+                    error
+                ))
+        return redirect(url_for('users.signup'))
+
+         
