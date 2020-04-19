@@ -5,18 +5,6 @@
 
   <!-- Page Content -->
   <div class="container">
-
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Authentication</h1>
-      <small></small>
-    </h1>
-
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="/">Home</a>
-      </li>
-      
-    </ol>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <div class="alert alert-warning" role="alert">
@@ -26,7 +14,16 @@
     </div>
     {% endif %}
     {% endwith %}
-    <form action="{{ url_for('user.process_login') }}" method="post">
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Authentication</h1>
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/">Home</a>
+      </li>
+    </ol>
+    <form action="{{ url_for('users.process_login') }}" method="post">
     <p> {{ form.hidden_tag() }}
       <div class="form-group">
           {{ form.username.label }}<br>
@@ -39,7 +36,7 @@
      
       <div class="form-group form-chek">
           {{ form.remember_me }}
-          {{ form.remember_me.label(class_='form-chek-label') }}
+          {{ form.remember_me.label (class_='form-chek-label') }}
          
       </div>  
         {{ form.submit() }}

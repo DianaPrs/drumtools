@@ -97,7 +97,7 @@
             <h4 class="card-title">
               <a href="#">The White Sripes</a>
             </h4>
-          
+
           </div>
         </div>
       </div>
@@ -126,10 +126,13 @@
      </div> 
     <!-- /.row -->
     <hr>
-    </div>
+    <!-- Features Section -->
     <div class="row">
       <div class="col-lg-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
         {% for track in track_list%}
           <h2>{{ track.artist.name }} - {{ track.name }}</h2>
           {% for bars in track.bars %}
@@ -139,14 +142,18 @@
           {% endfor %}
         {% endfor %}
 
+<<<<<<< HEAD
 =======
         <img class="img-fluid rounded" src="/static/" alt="">
 >>>>>>> origin/features/navbar
+=======
+>>>>>>> origin/master
       </div>
-       <!-- Features Section -->
-    
       <div class="col-lg-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
         <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
       </div>
    
@@ -179,7 +186,14 @@
       // Create the notes
       var notes = [
         {% for string_notes in bars.string_notes %}
+<<<<<<< HEAD
           new VF.StaveNote({ keys: [{{ string_notes.keys|safe }}], duration: "{{ string_notes.duration }}" }),
+=======
+          new VF.StaveNote({ keys: [
+                  {% for notes in string_notes.json_record %}
+                    '{{ notes }}'{% if not loop.last %},{% endif %}
+                  {% endfor %}], duration: "{{ string_notes.duration }}" }){% if not loop.last %},{% endif %}
+>>>>>>> origin/master
       {% endfor %}
       ];
 
@@ -208,6 +222,7 @@
     <!-- Call to Action Section -->
     <div class="row mb-4">
       <div class="col-md-8">
+<<<<<<< HEAD
 =======
         {% for track in track_list%}
           <h2>{{ track.artist.name }} - {{ track.name }}</h2>
@@ -273,6 +288,8 @@
        <div class="row mb-4">
         <div class="col-md-8">
 >>>>>>> origin/features/navbar
+=======
+>>>>>>> origin/master
         <p>Join us and bla bla bla.</p>
         </div>
         <div class="col-md-4">
@@ -280,6 +297,6 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 <!-- /.container -->
 {% endblock %}

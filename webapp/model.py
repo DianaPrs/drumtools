@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy_jsonfield
 
 
 db = SQLAlchemy()
@@ -7,7 +8,7 @@ db = SQLAlchemy()
 class Artist(db.Model):
     __tablename__ = 'artists'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique=True, nullable=False)
+    name = db.Column(db.String(255), unique=True, nullable=False)
     date_of_birth = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
@@ -17,16 +18,17 @@ class Artist(db.Model):
 class Track(db.Model):
     __tablename__ = 'tracks'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
 
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id', ondelete='CASCADE'), index=True, nullable=False)
     artist = db.relationship('Artist', backref=db.backref('tracks', lazy='dynamic'))
 
-    note_duration = db.Column(db.String, nullable=True)
+    note_duration = db.Column(db.String(255), nullable=True)
     speed = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'Track_id: {self.id},Track: {self.name}, duration: {self.note_duration}, speed: {self.speed}'
+
 
 class Line(db.Model):
     __tablename__ = 'lines'
@@ -66,12 +68,12 @@ class Line(db.Model):
 class Bar(db.Model):
     __tablename__ = 'bars'
     id = db.Column(db.Integer, primary_key=True)
-    notes = db.Column(db.String, nullable=False)
+    notes = db.Column(db.String(255), nullable=False)
     number = db.Column(db.Integer, nullable=False)
     empty = db.Column(db.Boolean, nullable=True)
     half = db.Column(db.Boolean, nullable=True)
-    clef = db.Column(db.String, nullable=True, default="bass")
-    time_signature = db.Column(db.String, nullable=True, default="4/4")
+    clef = db.Column(db.String(255), nullable=True, default="bass")
+    time_signature = db.Column(db.String(255), nullable=True, default="4/4")
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id', ondelete='CASCADE'), index=True, nullable=True)
     track = db.relationship('Track', backref=db.backref('bars', lazy='dynamic'))
 
@@ -84,13 +86,20 @@ class StringNote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     bar_id = db.Column(db.Integer, db.ForeignKey('bars.id', ondelete='CASCADE'), index=True, nullable=True)
-    bar = db.relationship('Bar', backref=db.backref('string_notes', lazy='dynamic'))
+    bar = db.relationship('Bar', backref=db.backref('string_notes', lazy='dynamic'), order_by='StringNote.number')
 
     number = db.Column(db.Integer, nullable=True)
-    keys = db.Column(db.String, nullable=True)
-    duration = db.Column(db.String, nullable=True)
-    accidental = db.Column(db.String, nullable=True)
+    keys = db.Column(db.String(255), nullable=True)
+    duration = db.Column(db.String(255), nullable=True)
+    accidental = db.Column(db.String(255), nullable=True)
     dot = db.Column(db.Boolean, nullable=True)
+    json_record = db.Column(
+        sqlalchemy_jsonfield.JSONField(
+            enforce_string=True,
+            enforce_unicode=False
+        ),
+        nullable=True
+    )
 
     def __repr__(self):
-        return f"Note id: {self.id}, "
+        return f"Note id: {self.id}, Number: { self.number}"

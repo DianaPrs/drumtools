@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, SubmitField, HiddenField
+from wtforms import StringField, BooleanField, PasswordField, SubmitField, HiddenField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from webapp.user.models import User
@@ -27,3 +27,16 @@ class RegistrationForm(FlaskForm):
         users_count = User.query.filter_by(email=email.data).count()
         if users_count > 0:
             raise ValidationError('An account with that email already exists')
+
+
+class TrackForm(FlaskForm):
+    user_id = HiddenField('ID', validators=[DataRequired()])
+    artist = StringField('Artist', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired()])
+    comment = StringField('Comment', validators=[DataRequired()])
+    notes = HiddenField('Notes', validators=[DataRequired()])
+    submit = SubmitField('Save', render_kw={"class": "btn btn-primary"})
+
+    def validate_user_id(self, user_id):
+        if not User.query.get(user_id.data):
+            raise ValidationError('No such user here')
