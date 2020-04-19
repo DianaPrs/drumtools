@@ -172,7 +172,10 @@
       // Create the notes
       var notes = [
         {% for string_notes in bars.string_notes %}
-          new VF.StaveNote({ keys: [{{ string_notes.keys|safe }}], duration: "{{ string_notes.duration }}" }),
+          new VF.StaveNote({ keys: [
+                  {% for notes in string_notes.json_record %}
+                    '{{ notes }}'{% if not loop.last %},{% endif %}
+                  {% endfor %}], duration: "{{ string_notes.duration }}" }){% if not loop.last %},{% endif %}
       {% endfor %}
       ];
 

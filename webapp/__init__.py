@@ -9,7 +9,6 @@ from webapp.model import db, Track, Line, Bar, Artist
 from webapp.user.models import User
 
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
