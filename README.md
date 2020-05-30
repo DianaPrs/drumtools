@@ -13,10 +13,19 @@ Drumtools it is a web project, based on flask framework. Repo contains MVP web a
 
 # Basic functionality
 
+Application indicate track name, artist, tempo of the composition and number of tacts. Every saving tact is uniq and contain notes. 
 
+User can create a personal account with the ability to create and save tracks. Output feature was designed for comfortable printing result.
 
 <a href="https://ibb.co/JvX7mCc"><img src="https://i.ibb.co/JvX7mCc/Screenshot-N.png" alt="Screenshot-N" border="0"></a>
 
+# TODO
+
+- Create advanced user interface for data input
+- Feedback feature 
+- Add MIDI support
+- Notes recognition from pdf
+- Import in other formats (.gp5 etc.)
 
 
 # Local installation
