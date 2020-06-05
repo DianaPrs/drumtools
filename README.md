@@ -32,6 +32,6 @@ To install localy clone repository and use `pip` comand
 
 ```
 git clone https://github.com/DianaPrs/drumtools.git
-pip install -r requirments.txt
+pip install -r requirements.txt
 ```
 
