@@ -1,8 +1,7 @@
 Drumtools
 =========
 
-The author of the idea and co-creator [Aleksandr Loschev](https://github.com/Loschev).
-With Drumtools you can find special drum notation for your favorite track in our database and create you're own laconic notation.
+With Drumtools you can find special drum notation for your favorite track in our database and create you're own laconic notation. Project was co-developed in my Learn Python course group. My main responsibillity was implementing the backend functionallity and some database component.The author of the idea and co-creator [Aleksandr Loschev](https://github.com/Loschev).
 
 ---
 # Overview
