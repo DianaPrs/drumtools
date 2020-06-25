@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_login import LoginManager, current_user, login_required
@@ -67,13 +69,11 @@ def create_app():
         title = "FAQ"
         return render_template('faq.html', page_title=title)
 
-<<<<<<< HEAD
     @app.route("/account")
     @login_required
     def account():
         title = "Account"
         return render_template('account.html', page_title=title, name=current_user.username)
-=======
->>>>>>> origin/master
+
 
     return app
